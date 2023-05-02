@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PFA_WebAPI.Services.PasswordHasher">
+    <Position X="3" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAMAAAAAAAAAAAAIAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Services\PasswordHasher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.133" />
+  </Class>
+  <Class Name="PFA_WebAPI.Repositories.DocumentRepository">
+    <Position X="5" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAgAAAAQAAA=</HashCode>
+      <FileName>Repositories\DocumentRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PFA_WebAPI.Repositories.JobRepository">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAABAACAAgAAAAgAAAAAAAAAgAAAAAQAAA=</HashCode>
+      <FileName>Repositories\JobRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PFA_WebAPI.Repositories.UserRepository">
+    <Position X="1" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAAAAAAABAAEAAAAAAAAAQAAAAAAEAAQAAAAAAA=</HashCode>
+      <FileName>Repositories\UserRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PFA_WebAPI.Data.DataContext">
+    <Position X="4" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Data\DataContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="PFA_WebAPI.Interfaces.IDocumentRepository">
+    <Position X="5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDocumentRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PFA_WebAPI.Interfaces.IJobRepository">
+    <Position X="7" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAACAAgAAAAgAAAAAAAAAgAAAAAQAAA=</HashCode>
+      <FileName>Interfaces\IJobRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PFA_WebAPI.Interfaces.IPasswordHasher">
+    <Position X="3" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAMAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IPasswordHasher.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PFA_WebAPI.Interfaces.IUserRepository">
+    <Position X="1" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAAEAAQAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUserRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

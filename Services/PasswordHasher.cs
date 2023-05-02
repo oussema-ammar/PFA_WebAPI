@@ -9,7 +9,7 @@ namespace PFA_WebAPI.Services
 {
     public class PasswordHasher : IPasswordHasher
     {
-        public readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         public PasswordHasher(IConfiguration configuration)
         {
             _configuration = configuration;
