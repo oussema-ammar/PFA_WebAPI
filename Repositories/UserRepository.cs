@@ -1,18 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PFA_WebAPI.Data;
+﻿using PFA_WebAPI.Data;
 using PFA_WebAPI.DTO;
 using PFA_WebAPI.Interfaces;
 using PFA_WebAPI.Models;
-using System.Security.Cryptography;
 
 namespace PFA_WebAPI.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        private readonly IPasswordHasher _passwordHasher;
+        public UserRepository(DataContext context, IPasswordHasher passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         public bool RegisterUser(User user)
@@ -32,18 +32,11 @@ namespace PFA_WebAPI.Repositories
             //Checking the Existence of the Email
             var FoundUser = _context.Users.Where(b => b.Email == user.Email).FirstOrDefault() 
             ?? throw new Exception("No user with this email exists.");
-            if (!VerifyPasswordHash(user.Password,FoundUser.PasswordHash,FoundUser.PasswordSalt))
+            if (!_passwordHasher.VerifyPasswordHash(user.Password,FoundUser.PasswordHash,FoundUser.PasswordSalt))
             {
                 throw new Exception("Password is wrong.");
             }
             return FoundUser;
-        }
-
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            var hmac = new HMACSHA512(passwordSalt);
-            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            return computedHash.SequenceEqual(passwordHash);
         }
 
         public User GetUser(int id)

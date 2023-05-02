@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using PFA_WebAPI.DTO;
 using PFA_WebAPI.Models;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using PFA_WebAPI.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
@@ -15,17 +12,17 @@ namespace PFA_WebAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserRepository _UserRepository;
-        private readonly IConfiguration _configuration;
-        public AuthController(IConfiguration configuration, IUserRepository userRepository)
+        private readonly IPasswordHasher _passwordHasher;
+        public AuthController(IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
-            _configuration = configuration;
             _UserRepository = userRepository;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost("register")]
         public IActionResult Register(UserDTO request)
         {
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            _passwordHasher.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             var user = new User
             {
                 Email = request.Email,
@@ -53,7 +50,7 @@ namespace PFA_WebAPI.Controllers
             {
                 var user = new User();
                 user = _UserRepository.Login(request);
-                string token = CreateToken(user);
+                string token = _passwordHasher.CreateToken(user);
                 return Ok(token);
             }
             catch(Exception ex)
@@ -80,7 +77,7 @@ namespace PFA_WebAPI.Controllers
                 // Update the user's properties with the new values
                 user.Name = userUpdateDTO.Name;
                 user.Email = userUpdateDTO.Email;
-                CreatePasswordHash(userUpdateDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                _passwordHasher.CreatePasswordHash(userUpdateDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
 
@@ -107,7 +104,7 @@ namespace PFA_WebAPI.Controllers
                 updatedUser.Id = id;
                 updatedUser.Name = user.Name;
                 updatedUser.Email = user.Email;
-                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+                _passwordHasher.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
                 updatedUser.PasswordHash = passwordHash;
                 updatedUser.PasswordSalt = passwordSalt;
 
@@ -141,40 +138,6 @@ namespace PFA_WebAPI.Controllers
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return int.Parse(id);
-        }
-        
-        private string CreateToken(User user)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: creds);
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
         }
     }
 }

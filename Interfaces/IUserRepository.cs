@@ -1,6 +1,5 @@
 ﻿using PFA_WebAPI.DTO;
 using PFA_WebAPI.Models;
-using System.Security.Cryptography;
 
 namespace PFA_WebAPI.Interfaces
 {
@@ -11,6 +10,5 @@ namespace PFA_WebAPI.Interfaces
         public User GetUser(int id);
         public void UpdateUser(User user);
         public void DeleteUser(int id);
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
     }
 }
